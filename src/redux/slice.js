@@ -8,8 +8,8 @@ const initialState = {
   error: null,
 };
 
-const mySlice = createSlice({
-  name: 'mySlice',
+const responseSlice = createSlice({
+  name: 'responseSlice',
   initialState,
   reducers: {
     fetchDataStart(state) {
@@ -28,7 +28,7 @@ const mySlice = createSlice({
 });
 
 export const { fetchDataStart, fetchDataSuccess, fetchDataFailure } =
-  mySlice.actions;
+  responseSlice.actions;
 
 export const fetchMyData = (requests) => async (dispatch) => {
   dispatch(fetchDataStart());
@@ -50,9 +50,18 @@ export const fetchMyData = (requests) => async (dispatch) => {
         }
       })
     );
-    dispatch(fetchDataSuccess(responses));
+
+    const dataObject = responses.reduce((acc, response, index) => {
+      console.log(requests);
+      const { key } = requests[index];
+      acc[key] = response; // Assign the response to the key
+      return acc;
+    }, {});
+
+    dispatch(fetchDataSuccess(dataObject));
   } catch (error) {
     dispatch(fetchDataFailure(error.message));
   }
 };
-export default mySlice.reducer;
+
+export default responseSlice.reducer;

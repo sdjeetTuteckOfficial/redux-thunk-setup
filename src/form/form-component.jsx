@@ -41,26 +41,33 @@ const MyForm = () => {
     console.log(data);
   };
   const dispatch = useDispatch();
-  const reduxData = useSelector((state) => state.mySlice.data);
+  const reduxData = useSelector((state) => state.responseSlice.data);
   console.log('countries', reduxData);
-  const loading = useSelector((state) => state.mySlice.loading);
+  const loading = useSelector((state) => state.responseSlice.loading);
+  const error = useSelector((state) => state.responseSlice.error);
 
   useEffect(() => {
     const requests = [
       {
         url: 'http://localhost:3001/api/countries',
         method: 'GET',
+        key: 'countries',
         // data: {},
         // token: 'token1',
       },
+      {
+        url: 'https://swapi.dev/api/people/',
+        method: 'GET',
+        key: 'swapi',
+      },
     ];
-
     dispatch(fetchMyData(requests));
   }, [dispatch]);
 
   return (
     <>
       {loading && <h1>load...</h1>}
+      {console.log(error)}
       {!loading && reduxData && (
         <form onSubmit={handleSubmit(onSubmit)}>
           <Controller

@@ -1,9 +1,9 @@
 import { configureStore } from '@reduxjs/toolkit';
-import myReducer from './slice'; // Import your slice reducer
+import myReducer from './slice';
 
 const store = configureStore({
   reducer: {
-    mySlice: myReducer, // Add your slice reducer to the root reducer
+    responseSlice: myReducer,
   },
 });
 
